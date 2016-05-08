@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2CABC1E7-A4EA-4DBD-8071-15B1E20EF6BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A539A766-150F-4BDF-9774-C36510402E6B}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OneMealAPI", "src\OneMealAPI\OneMealAPI.xproj", "{D9E5B7DA-57D5-42A3-B91D-B414EE5D92B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9E5B7DA-57D5-42A3-B91D-B414EE5D92B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E5B7DA-57D5-42A3-B91D-B414EE5D92B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9E5B7DA-57D5-42A3-B91D-B414EE5D92B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E5B7DA-57D5-42A3-B91D-B414EE5D92B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D9E5B7DA-57D5-42A3-B91D-B414EE5D92B7} = {2CABC1E7-A4EA-4DBD-8071-15B1E20EF6BB}
+	EndGlobalSection
+EndGlobal
