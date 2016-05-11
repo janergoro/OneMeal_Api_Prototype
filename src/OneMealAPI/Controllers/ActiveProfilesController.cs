@@ -8,18 +8,29 @@ using Microsoft.AspNet.Authorization;
 using OneMealAPI.Custom.Database;
 using System.Data.Linq;
 using OneMealAPI.Custom.Extensions;
+using OneMealAPI.Custom.BusinessLogic;
 
 namespace OneMealAPI.Controllers
 {
+    /*
+    #TODO
+    Refacto one Get
+    Add Get(x,y, distance)
+    Alter Post(datetime,user) to Post(datetime, user, location)
+    */
     [Route("api/[controller]")]
     public class ActiveProfilesController : Controller
     {
         DatabaseConnection db;
+        const double latitudeUT = 58.379058;
+        const double longitudeUT = 26.722544;
         // GET: api/activeprofiles
-        [HttpGet]
-        public List<OpenMeal> Get()
+        [HttpGet ("{latitude}/{longitude}/{distance}")]
+        public List<OpenMeal> Get(double latitude, double longitude, double distance)
         {
-
+            double distFromUT = GeoLocationCalc.CalcDistance(latitude, longitude, latitudeUT, longitudeUT, GeoLocationCalc.GeoCodeCalcMeasurement.Kilometers);
+            if (distFromUT > distance)
+                return null;
             db = DatabaseConnection.GetDBConnection();
             List<Meals> activeMeals = db.Meals.Where(x => x.MealDate >= DateTime.Now && x.PartnerID == null).ToList();
             List<OpenMeal> distinctmealInfo = FillProfileInfo(db, activeMeals);
@@ -35,6 +46,7 @@ namespace OneMealAPI.Controllers
                 newMeal.UserID = meal.UserID;
                 newMeal.MealDate = meal.MealDate;
                 newMeal.Id = meal.Id;
+                newMeal.Location = meal.Location;
                 mealInfo.Add(newMeal);
 
             }
@@ -96,7 +108,7 @@ namespace OneMealAPI.Controllers
             }
             return profile;
         }
-
+        
         // POST api/values
         [HttpPost]
         //[AllowAnonymous]
@@ -108,11 +120,11 @@ namespace OneMealAPI.Controllers
             {
                 result = result.ToLocalTime();
             }
-            string resp = WriteRequestToTable(result, data.userID);
+            string resp = WriteRequestToTable(result, data.userID, data.location);
 
         }
 
-        private string WriteRequestToTable(DateTime result, string userID)
+        private string WriteRequestToTable(DateTime result, string userID, string location)
         {
             DatabaseConnection conn = DatabaseConnection.GetDBConnection();
 
@@ -121,6 +133,7 @@ namespace OneMealAPI.Controllers
                 {
                     MealDate = result,
                     UserID = userID,
+                    Location = location
                 }
                 );
             conn.SubmitChanges();
@@ -132,6 +145,7 @@ namespace OneMealAPI.Controllers
             // the JSON to Model mapper match is case-insensitive
             public string chosenDate { get; set; }
             public string userID { get; set; }
+            public string location { get; set; }
         }
         
         // PUT api/values/5
@@ -145,5 +159,7 @@ namespace OneMealAPI.Controllers
         public void Delete(int id)
         {
         }
+
+
     }
 }

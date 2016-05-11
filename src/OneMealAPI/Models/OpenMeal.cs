@@ -28,6 +28,7 @@ namespace OneMealAPI.Models
             UserID = profile.UserId;
             Id = meal.Id;
             MealDate = meal.MealDate;
+            Location = meal.Location;
             return;
         }
         public OpenMeal(MealRequest req, DatabaseConnection db)
@@ -40,7 +41,9 @@ namespace OneMealAPI.Models
             Profession = profile.Profession;
             UserID = profile.UserId;
             Id = req.MealId;
-            MealDate = db.Meals.Where(x=> x.Id == req.MealId).FirstOrDefault().MealDate;
+            Meals meal = db.Meals.Where(x => x.Id == req.MealId).FirstOrDefault();
+            MealDate = meal.MealDate;
+            Location = meal.Location;
             return;
         }
         public static int CalculateAge(DateTime? birthday)
